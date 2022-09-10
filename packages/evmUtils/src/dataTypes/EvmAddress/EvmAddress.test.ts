@@ -6,6 +6,9 @@ const TEST_ADDRESS_CHECKSUM = '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045';
 const TEST_ADDRESS_CHECKSUM2 = '0x766fd99F7D249E275b4CF9baE422D50cC3223869';
 const TEST_ADDRESS_LOWERCASE = TEST_ADDRESS_CHECKSUM.toLowerCase();
 const TEST_INVALID_ADDRESS = '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96000';
+const TEST_ENS1 = "vitalik.eth";
+const TEST_ENSADDRESS1 = "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045";
+
 
 describe('EvmAddress', () => {
   let core: MoralisCore;
@@ -23,13 +26,11 @@ describe('EvmAddress', () => {
    */
   it('should create a new EvmAddress based on a lowercased address', () => {
     const address = EvmAddress.create(TEST_ADDRESS_LOWERCASE);
-
     expect(address.format()).toBe(TEST_ADDRESS_LOWERCASE);
   });
 
   it('should create a new EvmAddress based on a checksum address', () => {
     const address = EvmAddress.create(TEST_ADDRESS_CHECKSUM);
-
     expect(address.format()).toBe(TEST_ADDRESS_LOWERCASE);
   });
 
@@ -53,6 +54,12 @@ describe('EvmAddress', () => {
     expect(addressA).toBe(addressB);
   });
 
+  it('should create a new EvmAddress based on a ENS name', () => {
+    const addressA = EvmAddress.createFromENS(TEST_ENS1);
+    
+    expect(addressA).toBe(TEST_ENSADDRESS1)
+
+  })
   /**
    * Formatting
    */

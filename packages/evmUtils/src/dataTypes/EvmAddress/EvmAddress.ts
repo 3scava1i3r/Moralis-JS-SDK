@@ -9,6 +9,8 @@ import {
 } from '@moralisweb3/core';
 import { getAddress, isAddress } from '@ethersproject/address';
 import { EvmUtilsConfig } from '../../config/EvmUtilsConfig';
+import { isValidName } from '@ethersproject/hash';
+import { Provider } from '@ethersproject/providers';
 
 /**
  * This can be any valid EVM address, formatted as lowercase or checksum.
@@ -16,6 +18,13 @@ import { EvmUtilsConfig } from '../../config/EvmUtilsConfig';
  * @example "0xfB6916095ca1df60bB79Ce92cE3Ea74c37c5d359"
  */
 export type EvmAddressInput = string;
+
+/**
+ * This can be any valid ENS name, formatted as lowercase.
+ * @example "vitalik.eth"
+ * @example "dave.eth"
+ */
+ export type EvmAddressENSInput = string;
 
 /**
  * Valid input for a new EvmAddress instance.
@@ -56,6 +65,40 @@ export class EvmAddress implements MoralisData {
     }
     const finalCore = core || MoralisCoreProvider.getDefault();
     return new EvmAddress(address, finalCore.config);
+  }
+
+  /**
+   * Create a new instance of EvmAddress from any valid ENS name input
+   *
+   * @example
+   * ```
+   * const address = EvmAddress.createFromENS("vitalik.eth")
+   * const address = EvmAddress.createFromENS("dave.eth")
+   * ```
+   */
+   public static createFromENS(name: EvmAddressENSInput, core?: MoralisCore) {
+    
+    var add = this.parseENS(name);
+
+    console.log(MoralisCoreProvider.getDefault())
+    console.log(Provider)
+    
+    this.create(add,core);
+  }
+
+  /**
+   * Convert ENS name to address
+  */
+
+  private static parseENS(name : EvmAddressENSInput ){
+    if(!isValidName(name)){
+      throw new MoralisCoreError({
+        code: CoreErrorCode.INVALID_ARGUMENT,
+        message: 'Invalid name provided',
+      });
+    }
+
+    return null;
   }
 
   /**
