@@ -27,6 +27,11 @@ describe('EvmAddress', () => {
     expect(address.format()).toBe(TEST_ADDRESS_LOWERCASE);
   });
 
+  it('should create a new EvmAddress based on a name', async () => {
+    jest.setTimeout(15000);
+    await EvmAddress.createFromENS('vitalik.eth', 1);
+  });
+
   it('should create a new EvmAddress based on a checksum address', () => {
     const address = EvmAddress.create(TEST_ADDRESS_CHECKSUM);
 
@@ -101,6 +106,7 @@ describe('EvmAddress', () => {
   /**
    * Methods
    */
+
   it('should check equality of 2 addresses of the same value', () => {
     const addressA = EvmAddress.create(TEST_ADDRESS_LOWERCASE);
     const addressB = EvmAddress.create(TEST_ADDRESS_CHECKSUM);
